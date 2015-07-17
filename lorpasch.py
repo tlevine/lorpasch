@@ -1,27 +1,28 @@
 from collections import namedtuple
+import re
 
-class Lorpasch(dict):
-    def __init__(self, dimensions):
+import pandas
+
+class Lorpasch:
+    def __init__(self, *args):
         '''
-        Takes a list of dimension names
+        Either a data frame or
+
+        dimensions, facts
         '''
-        self.dimensions = 
-        self.Pixel = namedtuple('Pixel', dimensions)
-
-    def insert(self, key, value):
-        if len(key) != len(self.dimensions):
-            raise KeyError('Not a valid key')
-
-        if hasattr(key, 'items'):
-            pixel = self.Pixel(**key)
+        if len(args) == 1:
+            self.df, = args
+            self.dimensions = [re.sub(r'^dim_', '', c) for c in self.df.columns]
+            self.facts = [re.sub(r'^fact_', '', c) for c in self.df.columns]
+        elif len(args) == 2:
+            self.dimensions, self.facts = args
+            columns = ['dim_' + d for d in dimensions] + ['fact_' + f for f in facts]
+            self.df = pandas.DataFrame(columns = columns)
         else:
-            pixel = self.Pixel(*key)
+            raise TypeError('One argument or two arguments')
 
-        if pixel not in self:
-            self[pixel] = set()
-        self[pixel].add(pointer)
-
-def lorpasch(*dimensions):
+    def slice(self, dimension, value):
+        df[getattr(df, 'aoeu') == 'x']
 
 
 data = {
