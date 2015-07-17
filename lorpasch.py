@@ -14,10 +14,10 @@ class Lorpasch:
         self.fact_prefix = fact_prefix
         if len(args) == 1:
             self.df, = args
-            self.dimensions = [re.sub('^' + self.dim_prefix, '', c) for c in self.df.columns]
-            self.facts = [re.sub('^' + self.fact_prefix, '', c) for c in self.df.columns]
+            self.dimensions = [re.sub('^' + self.dim_prefix, '', c) for c in self.df.columns if c.startswith(self.dim_prefix)]
+            self.facts = [re.sub('^' + self.fact_prefix, '', c) for c in self.df.columns if c.startswith(self.fact_prefix)]
         elif len(args) == 2:
-            self.dimensions, *self.facts = args
+            self.dimensions, self.facts = args
             columns = [self.dim_prefix + d for d in self.dimensions] + [self.fact_prefix + f for f in self.facts]
             self.df = pandas.DataFrame(columns = columns)
         else:
@@ -42,7 +42,12 @@ class Lorpasch:
         dfs = (self.slice(dimension, value).df for value in values)
         return Lorpasch(pandas.concat(dfs))
 
-
-data = {
-#   (dim1value, dim2value, ...): set(),
-}
+def example():
+    p = Lorpasch(('year', 'month'), ('rainfall',))
+    p.insert(2015, 1, 3.3)
+    p.insert(2015, 2, 8.3)
+    p.insert(2015, 3,21.3)
+    p.insert(2015, 4,29.3)
+    p.insert(2015, 5,23.3)
+    p.insert(2015, 6,17.3)
+    print(list(p.dice('month', 1, 5)))
