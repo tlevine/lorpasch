@@ -33,7 +33,8 @@ class Lorpasch:
         '''
         Aggregate all of the facts with the passed function.
 
-        :param func: Function to run on a pandas column
+        :param func: Function that takes a pandas column, or the string
+            name of a pandas column method (sum, mean, quantile, &c)
         :rtype tuple:
         :returns: The aggregates, one per column
 
@@ -46,7 +47,7 @@ class Lorpasch:
         else:
             def f(column):
                 return func(column, *args, **kwargs)
-        columns = (getattr(self.df, name) for name in df.columns)
+        columns = (getattr(self.df, name) for name in self.df.columns)
         return tuple(map(f, columns))
 
     def insert(self, *args):
@@ -71,3 +72,4 @@ def example():
     p.insert(2015, 5,23.3)
     p.insert(2015, 6,17.3)
     print(list(p.dice('month', 1, 5)))
+    return p
