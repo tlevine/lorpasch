@@ -52,13 +52,21 @@ class Lorpasch:
         return tuple(map(f, columns))
 
     def insert(self, *args):
+        '''
+        Destructive
+
+        :rtype NoneType:
+        :returns: None
+        '''
         rows, columns = self.df.shape
         if len(args) != columns:
             raise ValueError('You must pass %d arguments.' % columns)
-        self.df.loc[rows + 1] = args
+        new = Lorpasch(self.df)
+        new.df.loc[rows + 1] = args
+        return new
 
     def slice(self, dimension, value):
-        return dice(dimension, value)
+        return self.dice(dimension, value)
 
     def _slice(self, dimension, value):
         return getattr(self.df, self.dim_prefix + dimension) == value

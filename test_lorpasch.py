@@ -15,7 +15,6 @@ class TestLorpasch:
 
     def test_iter(self):
         pass
-        return p
 
     def test_rollup(self):
         pass
@@ -23,23 +22,25 @@ class TestLorpasch:
     def test_insert(self):
         row = 2015, 7, 17.3
         new = self.l.insert(*row)
-        assert len(new) == len(self.df) + 1
+        assert len(new.df) == len(self.l.df) + 1
         assert list(new)[-1] == row
 
     def test__slice(self):
         observed = list(self.l._slice('month', 1))
-        expected = [
-        ]
+        expected = [True, False, False, False, False, False]
         assert observed == expected
 
     def test_slice(self):
         observed = list(self.l.slice('month', 2))
         expected = [
+            (8.3,)
         ]
         assert observed == expected
 
     def test_dice(self):
         observed = list(self.l.dice('month', 1, 5))
         expected = [
+            (3.3,),
+            (23.3,),
         ]
         assert observed == expected
