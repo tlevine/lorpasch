@@ -58,7 +58,7 @@ class Lorpasch:
         self.df.loc[rows + 1] = args
 
     def slice(self, dimension, value):
-        return Lorpasch(self.df[getattr(self.df, self.dim_prefix + dimension) == value])
+        return dice(dimension, value)
 
     def _slice(self, dimension, value):
         return getattr(self.df, self.dim_prefix + dimension) == value
