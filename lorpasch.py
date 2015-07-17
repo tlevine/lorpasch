@@ -17,7 +17,7 @@ class Lorpasch:
             self.dimensions = [re.sub('^' + self.dim_prefix, '', c) for c in self.df.columns]
             self.facts = [re.sub('^' + self.fact_prefix, '', c) for c in self.df.columns]
         elif len(args) == 2:
-            self.dimensions, self.facts = args
+            self.dimensions, *self.facts = args
             columns = [self.dim_prefix + d for d in self.dimensions] + [self.fact_prefix + f for f in self.facts]
             self.df = pandas.DataFrame(columns = columns)
         else:
@@ -25,6 +25,9 @@ class Lorpasch:
 
     def __repr__(self):
         return repr(self.df)
+
+    def __iter__(self):
+        return zip(*(self.df[self.fact_prefix + f] for f in self.facts))
 
     def insert(self, *args):
         rows, columns = self.df.shape
