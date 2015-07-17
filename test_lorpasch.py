@@ -1,3 +1,5 @@
+import pytest
+
 from lorpasch import Lorpasch
 
 def test_init():
@@ -14,16 +16,31 @@ class TestLorpasch:
         self.l.insert(2015, 6,17.3)
 
     def test_iter(self):
-        pass
+        expected = [
+            (3.3,),
+            (8.3,),
+            (21.3,),
+            (29.3,),
+            (23.3,),
+            (17.3,),
+        ]
+        assert list(self.l) == expected
 
     def test_rollup(self):
         pass
 
+  # @pytest.xfail
+  # def test_insert_safe(self):
+  #     row = 2015, 7, 17.3
+  #     old = Lorpasch(self.l.df.copy())
+  #     new = old.insert(*row)
+  #     assert len(new.df) == len(self.l.df) + 1
+
     def test_insert(self):
-        row = 2015, 7, 17.3
+        row = 2015, 7, 18.3
         new = self.l.insert(*row)
-        assert len(new.df) == len(self.l.df) + 1
-        assert list(new)[-1] == row
+        nrow, ncol = new.df.shape
+        assert tuple(new.df.ix[nrow].values) == row
 
     def test__slice(self):
         observed = list(self.l._slice('month', 1))

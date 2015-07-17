@@ -53,7 +53,7 @@ class Lorpasch:
 
     def insert(self, *args):
         '''
-        Destructive
+        Destructive, not on purpose
 
         :rtype NoneType:
         :returns: None
@@ -62,7 +62,7 @@ class Lorpasch:
         if len(args) != columns:
             raise ValueError('You must pass %d arguments.' % columns)
         new = Lorpasch(self.df)
-        new.df.loc[rows + 1] = args
+        new.df.loc[rows + 1] = args # destructive, bad
         return new
 
     def slice(self, dimension, value):
