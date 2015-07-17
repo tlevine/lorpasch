@@ -29,6 +29,9 @@ class Lorpasch:
     def __iter__(self):
         return zip(*(self.df[self.fact_prefix + f] for f in self.facts))
 
+    def rollup(self, func):
+        raise NotImplementedError
+
     def insert(self, *args):
         rows, columns = self.df.shape
         if len(args) != columns:
