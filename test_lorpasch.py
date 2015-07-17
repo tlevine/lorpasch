@@ -29,18 +29,17 @@ class TestLorpasch:
     def test_rollup(self):
         pass
 
-  # @pytest.xfail
-  # def test_insert_safe(self):
-  #     row = 2015, 7, 17.3
-  #     old = Lorpasch(self.l.df.copy())
-  #     new = old.insert(*row)
-  #     assert len(new.df) == len(self.l.df) + 1
+    @pytest.mark.xfail
+    def test_insert_safe(self):
+        row = 2015, 7, 17.3
+        old = Lorpasch(self.l.df.copy())
+        new = old.insert(*row)
+        assert len(new.df) == len(old.df) + 1
 
     def test_insert(self):
         row = 2015, 7, 18.3
         new = self.l.insert(*row)
-        nrow, ncol = new.df.shape
-        assert tuple(new.df.ix[nrow].values) == row
+        assert tuple(new.df.ix[len(new.df)].values) == row
 
     def test__slice(self):
         observed = list(self.l._slice('month', 1))
