@@ -30,13 +30,24 @@ class Lorpasch:
         return zip(*(self.df[self.fact_prefix + f] for f in self.facts))
 
     def rollup(self, func, *args, **kwargs):
+        '''
+        Aggregate all of the facts with the passed function.
+
+        :param func: Function to run on a pandas column
+        :rtype tuple:
+        :returns: The aggregates, one per column
+
+        The remaining arguments are passed to the function.
+
+        '''
         if isinstance(func, str):
             def f(column):
                 return getattr(column, func)(*args, **kwargs)
         else:
             def f(column):
                 return func(column, *args, **kwargs)
-        return map(f, df.
+        columns = (getattr(self.df, name) for name in df.columns)
+        return tuple(map(f, columns))
 
     def insert(self, *args):
         rows, columns = self.df.shape
