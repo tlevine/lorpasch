@@ -1,5 +1,6 @@
 from collections import namedtuple
 import re
+from functools import reduce, partial
 
 import pandas
 
@@ -59,9 +60,14 @@ class Lorpasch:
     def slice(self, dimension, value):
         return Lorpasch(self.df[getattr(self.df, self.dim_prefix + dimension) == value])
 
+    def _slice(self, dimension, value):
+        return getattr(self.df, self.dim_prefix + dimension) == value
+
     def dice(self, dimension, *values):
-        dfs = (self.slice(dimension, value).df for value in values)
-        return Lorpasch(pandas.concat(dfs))
+        f = partial(self._slice, dimension)
+        def g(left, right):
+            return left | right
+        return Lorpasch(self.df[reduce(g, map(f, values))])
 
 def example():
     p = Lorpasch(('year', 'month'), ('rainfall',))
