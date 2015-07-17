@@ -5,22 +5,41 @@ def test_init():
 
 class TestLorpasch:
     def setup(self):
-        assert False
+        self.l = Lorpasch(('year', 'month'), ('rainfall',))
+        self.l.insert(2015, 1, 3.3)
+        self.l.insert(2015, 2, 8.3)
+        self.l.insert(2015, 3,21.3)
+        self.l.insert(2015, 4,29.3)
+        self.l.insert(2015, 5,23.3)
+        self.l.insert(2015, 6,17.3)
 
-    def test_iter():
+    def test_iter(self):
+        pass
+        return p
+
+    def test_rollup(self):
         pass
 
-    def test_rollup():
-        pass
+    def test_insert(self):
+        row = 2015, 7, 17.3
+        new = self.l.insert(*row)
+        assert len(new) == len(self.df) + 1
+        assert list(new)[-1] == row
 
-    def test_insert():
-        pass
+    def test__slice(self):
+        observed = list(self.l._slice('month', 1))
+        expected = [
+        ]
+        assert observed == expected
 
-    def test__slice():
-        pass
+    def test_slice(self):
+        observed = list(self.l.slice('month', 2))
+        expected = [
+        ]
+        assert observed == expected
 
-    def test_slice():
-        pass
-
-    def test_dice():
-        pass
+    def test_dice(self):
+        observed = list(self.l.dice('month', 1, 5))
+        expected = [
+        ]
+        assert observed == expected

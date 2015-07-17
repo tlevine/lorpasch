@@ -69,13 +69,3 @@ class Lorpasch:
             return left | right
         return Lorpasch(self.df[reduce(g, map(f, values))])
 
-def example():
-    p = Lorpasch(('year', 'month'), ('rainfall',))
-    p.insert(2015, 1, 3.3)
-    p.insert(2015, 2, 8.3)
-    p.insert(2015, 3,21.3)
-    p.insert(2015, 4,29.3)
-    p.insert(2015, 5,23.3)
-    p.insert(2015, 6,17.3)
-    print(list(p.dice('month', 1, 5)))
-    return p
