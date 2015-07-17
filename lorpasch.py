@@ -14,8 +14,14 @@ class Lorpasch:
         self.fact_prefix = fact_prefix
         if len(args) == 1:
             self.df, = args
-            self.dimensions = [re.sub('^' + self.dim_prefix, '', c) for c in self.df.columns]
-            self.facts = [re.sub('^' + self.fact_prefix, '', c) for c in self.df.columns]
+            if self.dim_prefix:
+                self.dimensions = [re.sub('^' + self.dim_prefix, '', c) for c in self.df.columns]
+            else:
+                self.dimensions = []
+            if self.fact_prefix:
+                self.facts = [re.sub('^' + self.fact_prefix, '', c) for c in self.df.columns]
+            else:
+                self.facts = []
         elif len(args) == 2:
             self.dimensions, self.facts = args
             columns = [self.dim_prefix + d for d in dimensions] + [self.fact_prefix + f for f in facts]
