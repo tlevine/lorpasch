@@ -29,8 +29,14 @@ class Lorpasch:
     def __iter__(self):
         return zip(*(self.df[self.fact_prefix + f] for f in self.facts))
 
-    def rollup(self, func):
-        raise NotImplementedError
+    def rollup(self, func, *args, **kwargs):
+        if isinstance(func, str):
+            def f(column):
+                return getattr(column, func)(*args, **kwargs)
+        else:
+            def f(column):
+                return func(column, *args, **kwargs)
+        return map(f, df.
 
     def insert(self, *args):
         rows, columns = self.df.shape
